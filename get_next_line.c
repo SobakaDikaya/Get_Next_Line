@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srafe <srafe@student.42.fr>                +#+  +:+       +#+        */
+/*   By: srafe <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/07 14:03:35 by srafe             #+#    #+#             */
-/*   Updated: 2018/12/11 14:36:12 by srafe            ###   ########.fr       */
+/*   Created: 2018/12/13 16:31:07 by srafe             #+#    #+#             */
+/*   Updated: 2018/12/13 16:31:15 by srafe            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,29 @@
 
 char	*ret_res(char *str, char **line)
 {
-	char		*temp;
-	int			i;
-	char		*del;
+	int		i;
+	int		j;
+	char	*temp;
+	char	*del;
 
-	temp = ft_strnew(0);
 	i = 0;
+	temp = ft_strnew(0);
 	while (str[i] != '\n' && str[i] != '\0')
 		i++;
-	(*line) = ft_strsub(str, 0, i);
+	j = ft_strlen(&str[i]);
 	del = temp;
-	temp = ft_strjoin(del, str + i + 1);
+	temp = ft_strsub(str, i + 1, j);
 	ft_strdel(&del);
+	(*line) = ft_strsub(str, 0, i);
 	ft_strdel(&str);
-	str = temp;
-	return (str);
+	return (temp);
 }
 
 int		get_next_line(const int fd, char **line)
 {
 	int			j;
 	char		buf[BUFF_SIZE + 1];
-	static char	*str[255];
+	static char	*str[4096];
 	char		*del;
 
 	if (fd < 0 || !line || read(fd, buf, 0) < 0)
